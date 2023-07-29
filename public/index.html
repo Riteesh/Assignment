@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search and Scrape</title>
+    <script>
+        async function searchAndScrape() {
+            const query = document.getElementById('query').value;
+            const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+            const data = await response.json();
+            if (data.error) {
+                document.getElementById('output').innerHTML = `Error: ${data.error}`;
+            } else if (data.texts) {
+                document.getElementById('output').innerHTML = data.texts.join('<hr>');
+            } else {
+                document.getElementById('output').innerHTML = 'Unexpected response from server';
+            }
+        }
+    </script>
+</head>
+<body>
+    <input type="text" id="query" placeholder="Enter a search query">
+    <button onclick="searchAndScrape()">Submit</button>
+    <hr>
+    <div id="output"></div>
+</body>
+</html>
